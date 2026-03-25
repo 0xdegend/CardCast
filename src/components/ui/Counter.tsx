@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 import { CounterProps } from "@/lib/types";
-
+import { gsap } from "gsap";
 export function Counter({
   target,
   prefix = "",

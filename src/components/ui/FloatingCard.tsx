@@ -1,7 +1,10 @@
+"use client";
 import { FloatingCardProps } from "@/lib/types";
+import Image from "next/image";
 import { useRef, useEffect } from "react";
+import { gsap } from "gsap";
 export function FloatingCard({
-  emoji,
+  image,
   label,
   sublabel,
   grade,
@@ -110,7 +113,7 @@ export function FloatingCard({
       <div
         className="relative rounded-2xl overflow-hidden"
         style={{
-          width: "90px",
+          width: "140px",
           background: `linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)`,
           border: `1px solid ${color}55`,
           backdropFilter: "blur(12px)",
@@ -135,18 +138,22 @@ export function FloatingCard({
             background: `linear-gradient(135deg, ${color}22 0%, transparent 40%, ${color}11 60%, transparent 100%)`,
           }}
         />
-
-        {/* Card content */}
         <div className="relative z-10 p-3 flex flex-col items-center gap-1.5">
           <div
-            className="w-full aspect-[3/4] rounded-xl flex items-center justify-center text-3xl relative overflow-hidden"
+            className="w-full aspect-[3/4]  flex items-center justify-center text-3xl relative overflow-hidden"
             style={{
               background: `radial-gradient(circle at 40% 35%, ${color}33 0%, rgba(0,0,0,0.4) 70%)`,
               boxShadow: `inset 0 0 20px ${color}22`,
             }}
           >
-            <span className="relative z-10 drop-shadow-lg">{emoji}</span>
-            {/* Inner shimmer */}
+            <Image
+              src={image}
+              width={200}
+              height={40}
+              alt="Card images"
+              sizes="90px"
+              className="object-cover drop-shadow-lg"
+            />
             <div
               className="absolute inset-0 opacity-20"
               style={{

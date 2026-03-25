@@ -161,7 +161,7 @@ export interface CreateMarketForm {
 }
 
 export interface FloatingCardProps {
-  emoji: string;
+  image: string;
   label: string;
   sublabel: string;
   grade?: string;

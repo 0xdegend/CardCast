@@ -1,6 +1,6 @@
 export const FLOATING_CARDS = [
   {
-    emoji: "🔥",
+    image: "/cards/sample-card-1.png",
     label: "Charizard ex",
     sublabel: "SV 151",
     grade: "PSA 10",
@@ -10,7 +10,7 @@ export const FLOATING_CARDS = [
     style: { top: "14%", left: "5%" },
   },
   {
-    emoji: "💎",
+    image: "/cards/sample-card-2.png",
     label: "Umbreon ex",
     sublabel: "Prismatic",
     grade: "GEM MT",
@@ -20,7 +20,7 @@ export const FLOATING_CARDS = [
     style: { top: "22%", right: "5%" },
   },
   {
-    emoji: "⚡",
+    image: "/cards/sample-card-3.png",
     label: "Pikachu V",
     sublabel: "Holo Rare",
     color: "#f5c842",
@@ -29,7 +29,7 @@ export const FLOATING_CARDS = [
     style: { bottom: "30%", left: "4%" },
   },
   {
-    emoji: "🌊",
+    image: "/cards/sample-card-4.png",
     label: "Mew ex",
     sublabel: "Alt Art",
     grade: "BGS 9.5",
@@ -39,7 +39,7 @@ export const FLOATING_CARDS = [
     style: { bottom: "22%", right: "6%" },
   },
   {
-    emoji: "🏆",
+    image: "/cards/sample-card-5.png",
     label: "Trophy Rare",
     sublabel: "Secret",
     color: "#ff4d8f",
