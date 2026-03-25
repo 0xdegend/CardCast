@@ -1,6 +1,12 @@
 // ── Market Types ──────────────────────────────────────────────
 
-export type MarketCategory = "Price" | "Grading" | "Event" | "Pull Odds" | "Demand" | "Custom";
+export type MarketCategory =
+  | "Price"
+  | "Grading"
+  | "Event"
+  | "Pull Odds"
+  | "Demand"
+  | "Custom";
 export type MarketStatus = "live" | "ending" | "resolved" | "pending";
 export type MarketOutcome = "yes" | "no";
 
@@ -152,4 +158,32 @@ export interface CreateMarketForm {
   dataSource: string;
   expiryDays: number;
   initialLiquidity: number;
+}
+
+export interface FloatingCardProps {
+  emoji: string;
+  label: string;
+  sublabel: string;
+  grade?: string;
+  color: string;
+  glowColor: string;
+  style?: React.CSSProperties;
+  cardIndex: number;
+}
+
+export interface Particle {
+  id: number;
+  x: number;
+  y: number;
+  size: number;
+  opacity: number;
+  speed: number;
+  angle: number;
+}
+
+export interface CounterProps {
+  target: number;
+  prefix?: string;
+  suffix?: string;
+  decimals?: number;
 }

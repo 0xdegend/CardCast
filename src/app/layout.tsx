@@ -5,9 +5,21 @@ import { Footer } from "@/components/layout/Footer";
 import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
-  title: { default: "CardCast — TCG Prediction Markets", template: "%s | CardCast" },
-  description: "The prediction market built for TCG collectors. Bet on card prices, grading outcomes, and pull odds. Earn XP toward the $CAST airdrop.",
-  keywords: ["pokemon", "tcg", "prediction market", "cards", "grading", "defi", "web3"],
+  title: {
+    default: "CardCast — TCG Prediction Markets",
+    template: "%s | CardCast",
+  },
+  description:
+    "The prediction market built for TCG collectors. Bet on card prices, grading outcomes, and pull odds. Earn XP toward the $CAST airdrop.",
+  keywords: [
+    "pokemon",
+    "tcg",
+    "prediction market",
+    "cards",
+    "grading",
+    "defi",
+    "web3",
+  ],
   openGraph: {
     title: "CardCast — TCG Prediction Markets",
     description: "Predict. Collect. Win.",
@@ -21,15 +33,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body>
         <div className="noise-overlay" aria-hidden />
         <Nav />
-        <main className="min-h-screen pt-[60px]">
-          {children}
-        </main>
+        <main className="min-h-screen pt-15">{children}</main>
         <Footer />
         <Toaster
           position="bottom-right"
