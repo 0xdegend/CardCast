@@ -1,0 +1,274 @@
+import type {
+  Market,
+  LeaderboardEntry,
+  Quest,
+  Achievement,
+  Position,
+  Activity,
+  UserProfile,
+} from "@/lib/types";
+
+// ── Markets ────────────────────────────────────────────────────
+
+export const MARKETS: Market[] = [
+  {
+    id: "1",
+    title: "Charizard ex 199/165 hits $500 by June 2025",
+    description: "Will the TCGPlayer market price of Charizard ex Secret Rare reach or exceed $500 before June 1, 2025?",
+    category: "Price",
+    cardName: "Charizard ex",
+    setName: "Obsidian Flames",
+    image: "",
+    emoji: "🔥",
+    yesOdds: 68,
+    volume: 142800,
+    liquidity: 38200,
+    change24h: 4.2,
+    status: "live",
+    endsAt: new Date(Date.now() + 14 * 86400000),
+    createdAt: new Date(Date.now() - 7 * 86400000),
+    participants: 892,
+    tags: ["Pokémon", "Secret Rare", "Scarlet & Violet"],
+    resolutionCriteria: "Resolves YES if TCGPlayer market price ≥ $500 on June 1, 2025 at 00:00 UTC.",
+    dataSource: "TCGPlayer Market Price",
+    hot: true, trending: true, featured: true,
+  },
+  {
+    id: "2",
+    title: "Pikachu Illustrator PSA 10 sells above $10M",
+    description: "Will any Pikachu Illustrator PSA 10 copy sell for $10M+ at public auction in 2025?",
+    category: "Grading",
+    cardName: "Pikachu Illustrator",
+    setName: "CoroCoro",
+    image: "",
+    emoji: "⚡",
+    yesOdds: 31,
+    volume: 89400,
+    liquidity: 22100,
+    change24h: -2.8,
+    status: "live",
+    endsAt: new Date(Date.now() + 30 * 86400000),
+    createdAt: new Date(Date.now() - 3 * 86400000),
+    participants: 541,
+    tags: ["Pokémon", "PSA 10", "Grading", "Base Set"],
+    resolutionCriteria: "Resolves YES if a verified PSA 10 copy sells at public auction for $10M+ in 2025.",
+    dataSource: "PWCC / Heritage Auctions",
+    hot: false, trending: true, featured: true,
+  },
+  {
+    id: "3",
+    title: "Pokémon TCG Pocket reaches 100M downloads",
+    description: "Will the Pokémon TCG Pocket mobile game hit 100M cumulative downloads by end of Q1 2025?",
+    category: "Event",
+    cardName: "Pokémon GO",
+    setName: "Digital",
+    image: "",
+    emoji: "📱",
+    yesOdds: 79,
+    volume: 234100,
+    liquidity: 61400,
+    change24h: 11.3,
+    status: "live",
+    endsAt: new Date(Date.now() + 7 * 86400000),
+    createdAt: new Date(Date.now() - 14 * 86400000),
+    participants: 1847,
+    tags: ["Event", "Mobile", "Digital"],
+    resolutionCriteria: "Resolves YES if The Pokémon Company or App stores confirm 100M+ downloads by March 31, 2025.",
+    dataSource: "Official Pokémon / App Store data",
+    hot: true, trending: true, featured: true,
+  },
+  {
+    id: "4",
+    title: "Temporal Forces booster box floor exceeds $120",
+    description: "Will the sealed booster box floor price on TCGPlayer exceed $120 before set rotation?",
+    category: "Price",
+    cardName: "Temporal Forces",
+    setName: "Scarlet & Violet",
+    image: "",
+    emoji: "⏳",
+    yesOdds: 52,
+    volume: 67200,
+    liquidity: 18900,
+    change24h: 0.6,
+    status: "live",
+    endsAt: new Date(Date.now() + 21 * 86400000),
+    createdAt: new Date(Date.now() - 2 * 86400000),
+    participants: 334,
+    tags: ["Pokémon", "Sealed", "Booster Box"],
+    resolutionCriteria: "Resolves YES if TCGPlayer market price for sealed Temporal Forces booster box ≥ $120.",
+    dataSource: "TCGPlayer Market Price",
+    hot: false, trending: false, featured: false,
+  },
+  {
+    id: "5",
+    title: "Lugia V Alt Art breaks $400 on TCGPlayer",
+    description: "Will the Lugia V Alternate Full Art from Silver Tempest hit $400 market price?",
+    category: "Price",
+    cardName: "Lugia V",
+    setName: "Silver Tempest",
+    image: "",
+    emoji: "🌊",
+    yesOdds: 44,
+    volume: 95700,
+    liquidity: 26300,
+    change24h: -5.1,
+    status: "ending",
+    endsAt: new Date(Date.now() + 2 * 86400000),
+    createdAt: new Date(Date.now() - 28 * 86400000),
+    participants: 673,
+    tags: ["Pokémon", "Alt Art", "Silver Tempest"],
+    resolutionCriteria: "Resolves YES if TCGPlayer market price for Lugia V Alternate Full Art ≥ $400.",
+    dataSource: "TCGPlayer Market Price",
+    hot: false, trending: false, featured: false,
+  },
+  {
+    id: "6",
+    title: "Worlds 2025 top 8 all use Lost Box",
+    description: "Will all 8 top-cut decks at Pokémon World Championship 2025 Masters run Lost Box?",
+    category: "Event",
+    cardName: "Lost Zone",
+    setName: "Lost Origin",
+    image: "",
+    emoji: "🏆",
+    yesOdds: 37,
+    volume: 48900,
+    liquidity: 12700,
+    change24h: 1.9,
+    status: "live",
+    endsAt: new Date(Date.now() + 45 * 86400000),
+    createdAt: new Date(Date.now() - 1 * 86400000),
+    participants: 289,
+    tags: ["Pokémon", "Worlds", "Competitive"],
+    resolutionCriteria: "Resolves YES if official Worlds bracket shows all 8 Masters top-cut decks are Lost Box.",
+    dataSource: "Official Pokémon Championship Results",
+    hot: false, trending: false, featured: false,
+  },
+];
+
+// ── Chart helper ───────────────────────────────────────────────
+
+export function generateOddsHistory(currentOdds: number, points = 30) {
+  const data: { time: string; odds: number; volume: number }[] = [];
+  let odds = currentOdds - Math.random() * 20;
+  for (let i = 0; i < points; i++) {
+    odds = Math.min(95, Math.max(5, odds + (Math.random() - 0.45) * 4));
+    const date = new Date(Date.now() - (points - i) * 86400000);
+    data.push({
+      time: date.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
+      odds: Math.round(odds),
+      volume: Math.round(Math.random() * 8000 + 1000),
+    });
+  }
+  return data;
+}
+
+// ── Leaderboard ────────────────────────────────────────────────
+
+export const LEADERBOARD: LeaderboardEntry[] = [
+  { rank: 1, address: "0xabc1", handle: "0xSatoshi", xp: 48420, accuracy: 87, winRate: "87%", streak: 14, pnl: "+$12,840", badge: "🏆" },
+  { rank: 2, address: "0xabc2", handle: "CardShark99", xp: 39180, accuracy: 81, winRate: "81%", streak: 8, pnl: "+$9,320", badge: "🥈" },
+  { rank: 3, address: "0xabc3", handle: "PokeDegen", xp: 34750, accuracy: 79, winRate: "79%", streak: 11, pnl: "+$8,100", badge: "🥉" },
+  { rank: 4, address: "0xabc4", handle: "LunarTrader", xp: 28940, accuracy: 74, winRate: "74%", streak: 5, pnl: "+$6,240", badge: "⚡" },
+  { rank: 5, address: "0xdegend", handle: "0xdegend", xp: 22310, accuracy: 71, winRate: "71%", streak: 3, pnl: "+$4,880", badge: "🔥", isCurrentUser: true },
+  { rank: 6, address: "0xabc6", handle: "CardWizard", xp: 19820, accuracy: 68, winRate: "68%", streak: 0, pnl: "+$3,420", badge: "💎" },
+  { rank: 7, address: "0xabc7", handle: "GradeKing", xp: 15670, accuracy: 65, winRate: "65%", streak: 2, pnl: "+$2,190", badge: "🎯" },
+  { rank: 8, address: "0xabc8", handle: "PullGod", xp: 12340, accuracy: 63, winRate: "63%", streak: 0, pnl: "+$1,870", badge: "🌊" },
+  { rank: 9, address: "0xabc9", handle: "SecretRare", xp: 9810, accuracy: 60, winRate: "60%", streak: 1, pnl: "+$1,230", badge: "✦" },
+  { rank: 10, address: "0xabc0", handle: "HoloHunter", xp: 7560, accuracy: 58, winRate: "58%", streak: 0, pnl: "+$890", badge: "🎴" },
+];
+
+// ── Quests ─────────────────────────────────────────────────────
+
+export const QUESTS: Quest[] = [
+  { id: "q1", title: "First Prediction", description: "Place your first prediction today", xpReward: 100, progress: 100, total: 1, current: 1, icon: "🎯", completed: true, type: "daily" },
+  { id: "q2", title: "Market Explorer", description: "Browse 5 different markets", xpReward: 50, progress: 60, total: 5, current: 3, icon: "🔍", completed: false, type: "daily" },
+  { id: "q3", title: "Winning Streak", description: "Win 3 predictions in a row", xpReward: 250, progress: 33, total: 3, current: 1, icon: "🔥", completed: false, type: "weekly" },
+  { id: "q4", title: "Social Sharer", description: "Share a prediction card to X", xpReward: 75, progress: 0, total: 1, current: 0, icon: "📤", completed: false, type: "daily" },
+  { id: "q5", title: "Whale Watcher", description: "Trade $500+ in a single market", xpReward: 500, progress: 0, total: 1, current: 0, icon: "🐋", completed: false, type: "weekly" },
+  { id: "q6", title: "Market Creator", description: "Create your first market", xpReward: 500, progress: 0, total: 1, current: 0, icon: "✦", completed: false, type: "seasonal" },
+];
+
+// ── Achievements ───────────────────────────────────────────────
+
+export const ACHIEVEMENTS: Achievement[] = [
+  { id: "a1", name: "First Win", icon: "🏆", description: "Win your first prediction", xpReward: 200, unlocked: true, progress: 100, total: 1, current: 1 },
+  { id: "a2", name: "Hot Streak", icon: "🔥", description: "Win 5 predictions in a row", xpReward: 500, unlocked: true, progress: 100, total: 5, current: 5 },
+  { id: "a3", name: "Diamond Hands", icon: "💎", description: "Hold a position for 7+ days", xpReward: 300, unlocked: true, progress: 100, total: 7, current: 7 },
+  { id: "a4", name: "Sharpshooter", icon: "🎯", description: "Achieve 75%+ accuracy over 20 markets", xpReward: 1000, unlocked: true, progress: 100, total: 20, current: 20 },
+  { id: "a5", name: "Market Lion", icon: "🦁", description: "Trade in 50 different markets", xpReward: 1500, unlocked: false, progress: 46, total: 50, current: 23 },
+  { id: "a6", name: "Lunar Caller", icon: "🌙", description: "Correctly call a 10x odds swing", xpReward: 2000, unlocked: false, progress: 0, total: 1, current: 0 },
+  { id: "a7", name: "Speed Trader", icon: "⚡", description: "Place 10 predictions in under 1 hour", xpReward: 750, unlocked: false, progress: 0, total: 10, current: 0 },
+  { id: "a8", name: "Hall of Fame", icon: "🏅", description: "Reach #1 on the leaderboard", xpReward: 5000, unlocked: false, progress: 0, total: 1, current: 0 },
+];
+
+// ── Positions ──────────────────────────────────────────────────
+
+export const POSITIONS: Position[] = [
+  {
+    id: "p1", marketId: "1", marketTitle: "Charizard ex hits $500",
+    outcome: "yes", shares: 250, entryPrice: 0.58, currentPrice: 0.68,
+    invested: 250, currentValue: 334, pnl: 84, pnlPercent: 33.6,
+    status: "open", createdAt: new Date(Date.now() - 3 * 86400000),
+  },
+  {
+    id: "p2", marketId: "3", marketTitle: "Pokémon GO reaches 100M DL",
+    outcome: "yes", shares: 180, entryPrice: 0.71, currentPrice: 0.79,
+    invested: 180, currentValue: 232, pnl: 52, pnlPercent: 28.9,
+    status: "open", createdAt: new Date(Date.now() - 7 * 86400000),
+  },
+  {
+    id: "p3", marketId: "5", marketTitle: "Lugia V breaks $400",
+    outcome: "no", shares: 120, entryPrice: 0.48, currentPrice: 0.56,
+    invested: 120, currentValue: 102, pnl: -18, pnlPercent: -15.0,
+    status: "open", createdAt: new Date(Date.now() - 14 * 86400000),
+  },
+];
+
+// ── Activity ───────────────────────────────────────────────────
+
+export const ACTIVITY: Activity[] = [
+  { id: "act1", type: "trade", user: "0xSatoshi", userHandle: "0xSatoshi", action: "bought YES", marketId: "1", marketTitle: "Charizard ex hits $500", amount: 500, outcome: "yes", timestamp: new Date(Date.now() - 120000) },
+  { id: "act2", type: "trade", user: "CardShark99", userHandle: "CardShark99", action: "bought NO", marketId: "2", marketTitle: "Pikachu Illustrator PSA 10 > $10M", amount: 200, outcome: "no", timestamp: new Date(Date.now() - 240000) },
+  { id: "act3", type: "create", user: "PokeDegen", userHandle: "PokeDegen", action: "created market", marketId: "6", marketTitle: "Worlds 2025 top 8 use Lost Box", timestamp: new Date(Date.now() - 600000) },
+  { id: "act4", type: "trade", user: "LunarTrader", userHandle: "LunarTrader", action: "bought YES", marketId: "3", marketTitle: "Pokémon GO 100M downloads", amount: 1200, outcome: "yes", timestamp: new Date(Date.now() - 900000) },
+  { id: "act5", type: "trade", user: "0xdegend", userHandle: "0xdegend", action: "bought YES", marketId: "1", marketTitle: "Charizard ex hits $500", amount: 250, outcome: "yes", timestamp: new Date(Date.now() - 3 * 86400000) },
+];
+
+// ── Ticker ─────────────────────────────────────────────────────
+
+export const TICKER_ITEMS = [
+  "🔥 CHARIZARD EX  $487  +4.2%",
+  "⚡ PIKACHU ILLUSTRATOR  $8.2M  +1.1%",
+  "🌊 LUGIA V ALT ART  $392  −2.3%",
+  "🏆 WORLDS 2025 MARKET  37% ODDS",
+  "💎 PSA 10 BASE CHARIZARD  $12K",
+  "📱 POKEMON GO 100M DL  79% YES",
+  "⏳ TEMPORAL FORCES BOX  $108  +0.6%",
+  "🎯 WORLDS LOST BOX MARKET  37%",
+  "✦ NEW: SCARLET VIOLET ERA MARKETS",
+  "🐋 WHALE ALERT: 1200 USDC TRADED",
+];
+
+// ── Mock Profile ───────────────────────────────────────────────
+
+export const MOCK_USER: UserProfile = {
+  address: "0xdegend",
+  handle: "0xdegend",
+  xp: 22310,
+  rank: 5,
+  accuracy: 71,
+  winRate: 71,
+  streak: 3,
+  totalPnl: 4880,
+  totalVolume: 12400,
+  marketsTraded: 23,
+  marketsCreated: 2,
+  badges: [
+    { id: "b1", name: "Early Adopter", icon: "✦", description: "Joined during beta", rarity: "rare" },
+    { id: "b2", name: "Fire Starter", icon: "🔥", description: "3-win streak", rarity: "common" },
+    { id: "b3", name: "Diamond", icon: "💎", description: "Diamond Hands holder", rarity: "epic" },
+  ],
+  achievements: ACHIEVEMENTS,
+  positions: POSITIONS,
+  watchlist: ["1", "3", "5"],
+};
