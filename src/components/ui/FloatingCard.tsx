@@ -21,8 +21,6 @@ export function FloatingCard({
   useEffect(() => {
     if (!cardRef.current) return;
     const el = cardRef.current;
-
-    // Independent float timeline per card
     const floatTl = gsap.timeline({ repeat: -1, yoyo: true });
     floatTl.to(el, {
       y: `${-14 - cardIndex * 4}px`,
@@ -30,8 +28,6 @@ export function FloatingCard({
       duration: 3.2 + cardIndex * 0.6,
       ease: "sine.inOut",
     });
-
-    // Shine sweep loop
     if (shineRef.current) {
       gsap.to(shineRef.current, { x: "200%", duration: 0 });
       const shineTl = gsap.timeline({
@@ -47,8 +43,6 @@ export function FloatingCard({
         })
         .to({}, { duration: 4 + cardIndex * 1.5 });
     }
-
-    // Hover interactions
     const handleEnter = () => {
       floatTl.pause();
       gsap.to(el, {
@@ -97,24 +91,19 @@ export function FloatingCard({
     };
   }, [cardIndex]);
 
-  // Dynamic color values that can't be expressed purely in static Tailwind classes
-  // are passed as CSS custom properties so Tailwind's arbitrary value syntax stays clean.
   return (
     <div
       ref={cardRef}
       className="absolute cursor-pointer select-none"
       style={{ ...style, willChange: "transform" }}
     >
-      {/* Glow behind card */}
       <div
         ref={glowRef}
         className="absolute -inset-5 rounded-2xl blur-2xl opacity-50 pointer-events-none transition-none z-0"
         style={{ background: glowColor }}
       />
-
-      {/* Card body */}
       <div
-        className="relative w-[140px] rounded-sm overflow-hidden
+        className="relative w-50 rounded-sm overflow-hidden
           bg-[linear-gradient(145deg,rgba(255,255,255,0.08)_0%,rgba(255,255,255,0.03)_100%)]
           backdrop-blur-xl
           shadow-[0_8px_32px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)]"
@@ -123,14 +112,11 @@ export function FloatingCard({
           boxShadow: `0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1), 0 0 0 0.5px ${color}44`,
         }}
       >
-        {/* Shine layer */}
         <div
           ref={shineRef}
           className="absolute inset-0 pointer-events-none z-20 -translate-x-[120%]
             bg-[linear-gradient(105deg,transparent_30%,rgba(255,255,255,0.18)_50%,transparent_70%)]"
         />
-
-        {/* Holographic film */}
         <div
           className="absolute inset-0 pointer-events-none z-10 opacity-30"
           style={{
@@ -139,9 +125,8 @@ export function FloatingCard({
         />
 
         <div className="relative z-10 p-3 flex flex-col items-center gap-1.5">
-          {/* Art area */}
           <div
-            className="w-full aspect-[3/4] flex items-center justify-center text-3xl relative overflow-hidden"
+            className="w-full aspect-3/4 flex items-center justify-center text-3xl relative overflow-hidden"
             style={{
               background: `radial-gradient(circle at 40% 35%, ${color}33 0%, rgba(0,0,0,0.4) 70%)`,
               boxShadow: `inset 0 0 20px ${color}22`,
@@ -157,8 +142,6 @@ export function FloatingCard({
             />
             <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_60%_30%,white,transparent_60%)]" />
           </div>
-
-          {/* Label */}
           <div className="text-center w-full">
             <div className="text-[10px] font-black tracking-wider text-white uppercase leading-none">
               {label}

@@ -574,11 +574,11 @@ body {
 .word-shimmer {
   background: linear-gradient(
     90deg,
-    #00e5cc 0%,
-    #ffffff 30%,
-    #00e5cc 50%,
-    #9b6dff 70%,
-    #00e5cc 100%
+    #dbeafe 0%,
+    #ffffff 25%,
+    #93c5fd 50%,
+    #e0f2fe 75%,
+    #dbeafe 100%
   );
   background-size: 200% auto;
   -webkit-background-clip: text;
