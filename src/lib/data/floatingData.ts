@@ -1,8 +1,8 @@
 export const FLOATING_CARDS = [
   {
     image: "/cards/sample-card-1.png",
-    label: "Charizard ex",
-    sublabel: "SV 151",
+    label: "EB04-001",
+    sublabel: "Jewelry Bonney",
     grade: "PSA 10",
     color: "#ff6b35",
     glowColor:
@@ -11,8 +11,8 @@ export const FLOATING_CARDS = [
   },
   {
     image: "/cards/sample-card-2.png",
-    label: "Umbreon ex",
-    sublabel: "Prismatic",
+    label: "EB04-002",
+    sublabel: "Jewelry Bonney",
     grade: "GEM MT",
     color: "#9b6dff",
     glowColor:
@@ -21,8 +21,8 @@ export const FLOATING_CARDS = [
   },
   {
     image: "/cards/sample-card-3.png",
-    label: "Pikachu V",
-    sublabel: "Holo Rare",
+    label: "EB04-003",
+    sublabel: "Jewelry Bonney",
     color: "#f5c842",
     glowColor:
       "radial-gradient(circle, rgba(245,200,66,0.35) 0%, transparent 70%)",
@@ -30,8 +30,8 @@ export const FLOATING_CARDS = [
   },
   {
     image: "/cards/sample-card-4.png",
-    label: "Mew ex",
-    sublabel: "Alt Art",
+    label: "EB04-004",
+    sublabel: "Jewelry Bonney",
     grade: "BGS 9.5",
     color: "#00e5cc",
     glowColor:
@@ -40,8 +40,8 @@ export const FLOATING_CARDS = [
   },
   {
     image: "/cards/sample-card-5.png",
-    label: "Trophy Rare",
-    sublabel: "Secret",
+    label: "EB04-004",
+    sublabel: "Jewelry Bonney",
     color: "#ff4d8f",
     glowColor:
       "radial-gradient(circle, rgba(255,77,143,0.3) 0%, transparent 70%)",
