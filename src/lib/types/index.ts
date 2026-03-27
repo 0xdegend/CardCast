@@ -179,6 +179,7 @@ export interface Particle {
   opacity: number;
   speed: number;
   angle: number;
+  delay: number;
 }
 
 export interface CounterProps {
