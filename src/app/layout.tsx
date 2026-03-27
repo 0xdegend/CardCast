@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import { Nav } from "@/components/layout/Nav";
 import { Footer } from "@/components/layout/Footer";
 import { Toaster } from "react-hot-toast";
+import { ClientProviders } from "./wrapper/ClientProvider";
 
 export const metadata: Metadata = {
   title: {
@@ -42,8 +43,10 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <div className="noise-overlay" aria-hidden />
-        <Nav />
-        <main className="min-h-screen pt-15">{children}</main>
+        <ClientProviders>
+          <Nav />
+          <main className="min-h-screen pt-15">{children}</main>
+        </ClientProviders>
         <Footer />
         <Toaster
           position="bottom-right"

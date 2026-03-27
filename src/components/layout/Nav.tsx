@@ -5,6 +5,13 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { cn, formatXP } from "@/lib/utils";
 import { useAppStore } from "@/lib/store";
+import {
+  usePrivy,
+  useWallets,
+  useLogout,
+  useLoginWithSiwe,
+  useLogin,
+} from "@privy-io/react-auth";
 import { Button } from "@/components/ui/Button";
 import { Bell, Menu, X } from "lucide-react";
 
@@ -18,9 +25,45 @@ const NAV_LINKS = [
 
 export function Nav() {
   const pathname = usePathname();
-  const { isAuthenticated, user, login, logout, notifCount, clearNotifs } =
-    useAppStore();
+  const { wallets } = useWallets();
+  const { notifCount, clearNotifs } = useAppStore();
+  const { authenticated, user } = usePrivy();
+  const isAuthenticated = authenticated;
+
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const { login } = useLogin({
+    onComplete: ({
+      user,
+      isNewUser,
+      wasAlreadyAuthenticated,
+      loginMethod,
+      loginAccount,
+    }) => {
+      console.log("Logged in user:", user);
+      console.log("New user?", isNewUser);
+      console.log("Already authenticated?", wasAlreadyAuthenticated);
+      console.log("Login method:", loginMethod);
+      console.log("Login account:", loginAccount);
+    },
+    onError: (error) => {
+      console.error("Login failed:", error);
+    },
+  });
+
+  const handleLogin = async () => {
+    login();
+  };
+
+  const { logout } = useLogout({
+    onSuccess: () => {
+      console.log("User successfully logged out");
+    },
+  });
+
+  const handleLogout = async () => {
+    logout();
+  };
 
   return (
     <>
@@ -63,7 +106,8 @@ export function Nav() {
                 <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-[rgba(240,180,41,0.08)] border border-[rgba(240,180,41,0.2)] rounded-sm">
                   <span className="text-xs">⚡</span>
                   <span className="font-mono text-[13px] text-(--gold) font-medium">
-                    {formatXP(user.xp)} XP
+                    {/* {formatXP(user?.xp)} XP */}
+                    30 XP
                   </span>
                 </div>
 
@@ -83,19 +127,20 @@ export function Nav() {
                 {/* Avatar */}
                 <Link href="/profile">
                   <div className="w-8 h-8 rounded-full bg-linear-to-br from-(--teal) to-(--purple) flex items-center justify-center text-xs font-extrabold text-black cursor-pointer">
-                    {user.handle.slice(0, 2).toUpperCase()}
+                    {/* {user.handle.slice(0, 2).toUpperCase()} */}
+                    0x
                   </div>
                 </Link>
 
                 <button
-                  onClick={logout}
-                  className="hidden sm:block text-xs text-(--text-dim) hover:text-(--text-muted) transition-colors"
+                  onClick={handleLogout}
+                  className="hidden sm:block text-xs text-(--text-dim) hover:text-(--text-muted) transition-colors cursor-pointer"
                 >
                   Disconnect
                 </button>
               </>
             ) : (
-              <Button size="md" onClick={login}>
+              <Button size="md" onClick={handleLogin}>
                 Connect Wallet
               </Button>
             )}
