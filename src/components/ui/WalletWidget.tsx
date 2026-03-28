@@ -35,7 +35,7 @@ function shortAddress(addr: string) {
 export function WalletWidget({
   walletAddress,
   handle,
-  xp = 30,
+  xp = 120,
   onDisconnect,
 }: WalletWidgetProps) {
   const { balance, isLoading, isError, refresh } =
@@ -70,7 +70,7 @@ export function WalletWidget({
         address: walletAddress,
         options: {
           chain: base,
-          amount: "15",
+          amount: "50",
           asset: "USDC",
         },
       });

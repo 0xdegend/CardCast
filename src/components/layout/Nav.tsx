@@ -49,6 +49,8 @@ export function Nav() {
         loginMethod,
         loginAccount,
       });
+      console.log(authenticated);
+      console.log(rawAddress);
     },
     onError: (error) => {
       console.error("Login failed:", error);
@@ -102,7 +104,7 @@ export function Nav() {
               <WalletWidget
                 walletAddress={connectedAddress}
                 handle={connectedAddress.slice(2, 4)}
-                xp={30}
+                xp={120}
                 onDisconnect={logout}
               />
             ) : (
