@@ -7,19 +7,21 @@ import { buyShares } from "@/lib/adapters/web3";
 import { Button } from "@/components/ui/Button";
 import { TxStatusDisplay } from "@/components/ui/TxStatus";
 import { cn } from "@/lib/utils";
+import { usePrivy } from "@privy-io/react-auth";
 
 interface TradePanelProps {
   market: Market;
 }
 
 export function TradePanel({ market }: TradePanelProps) {
-  const { isAuthenticated, login } = useAppStore();
+  const { authenticated, login } = usePrivy();
   const [outcome, setOutcome] = useState<MarketOutcome>("yes");
   const [amount, setAmount] = useState("100");
   const [txStatus, setTxStatus] = useState<TxStatus>({ state: "idle" });
 
   const amountNum = parseFloat(amount) || 0;
-  const price = outcome === "yes" ? market.yesOdds / 100 : (100 - market.yesOdds) / 100;
+  const price =
+    outcome === "yes" ? market.yesOdds / 100 : (100 - market.yesOdds) / 100;
   const shares = price > 0 ? amountNum / price : 0;
   const potentialPayout = shares * 1; // $1 per share if resolved YES
   const profit = potentialPayout - amountNum;
@@ -27,8 +29,14 @@ export function TradePanel({ market }: TradePanelProps) {
   const PRESETS = [50, 100, 250, 500];
 
   async function handleTrade() {
-    if (!isAuthenticated) { login(); return; }
-    await buyShares({ marketId: market.id, outcome, amount: amountNum }, setTxStatus);
+    if (!authenticated) {
+      login();
+      return;
+    }
+    await buyShares(
+      { marketId: market.id, outcome, amount: amountNum },
+      setTxStatus,
+    );
   }
 
   if (txStatus.state !== "idle") {
@@ -58,13 +66,12 @@ export function TradePanel({ market }: TradePanelProps) {
                 ? o === "yes"
                   ? "bg-[rgba(0,229,204,0.15)] border border-[rgba(0,229,204,0.4)] text-[var(--teal)]"
                   : "bg-[rgba(255,77,106,0.15)] border border-[rgba(255,77,106,0.4)] text-[var(--red)]"
-                : "bg-white/5 border border-[var(--border)] text-[var(--text-muted)] hover:bg-white/8"
+                : "bg-white/5 border border-[var(--border)] text-[var(--text-muted)] hover:bg-white/8",
             )}
           >
             {o === "yes"
               ? `YES · ${market.yesOdds}%`
-              : `NO · ${100 - market.yesOdds}%`
-            }
+              : `NO · ${100 - market.yesOdds}%`}
           </button>
         ))}
       </div>
@@ -75,7 +82,9 @@ export function TradePanel({ market }: TradePanelProps) {
           Amount (USDC)
         </label>
         <div className="relative">
-          <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--text-dim)] text-sm">$</span>
+          <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--text-dim)] text-sm">
+            $
+          </span>
           <input
             type="number"
             value={amount}
@@ -103,11 +112,16 @@ export function TradePanel({ market }: TradePanelProps) {
           ["Avg Price", `${(price * 100).toFixed(1)}¢`],
           ["Shares", shares.toFixed(2)],
           ["Max Payout", `$${potentialPayout.toFixed(2)}`],
-          ["Potential Profit", `${profit >= 0 ? "+" : ""}$${profit.toFixed(2)}`],
+          [
+            "Potential Profit",
+            `${profit >= 0 ? "+" : ""}$${profit.toFixed(2)}`,
+          ],
         ].map(([label, value]) => (
           <div key={label} className="flex justify-between items-center">
             <span className="text-xs text-[var(--text-muted)]">{label}</span>
-            <span className={`font-mono text-xs font-medium ${label === "Potential Profit" ? profit >= 0 ? "text-[var(--green)]" : "text-[var(--red)]" : "text-[var(--text)]"}`}>
+            <span
+              className={`font-mono text-xs font-medium ${label === "Potential Profit" ? (profit >= 0 ? "text-[var(--green)]" : "text-[var(--red)]") : "text-[var(--text)]"}`}
+            >
               {value}
             </span>
           </div>
@@ -121,11 +135,14 @@ export function TradePanel({ market }: TradePanelProps) {
         onClick={handleTrade}
         disabled={amountNum <= 0}
       >
-        {isAuthenticated ? `Buy ${outcome.toUpperCase()} · $${amountNum}` : "Connect Wallet to Trade"}
+        {authenticated
+          ? `Buy ${outcome.toUpperCase()} · $${amountNum}`
+          : "Connect Wallet to Trade"}
       </Button>
 
       <p className="text-center text-[10px] text-[var(--text-dim)] leading-relaxed">
-        Positions are settled onchain. Past performance does not guarantee future results.
+        Positions are settled onchain. Past performance does not guarantee
+        future results.
       </p>
     </div>
   );

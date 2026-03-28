@@ -30,7 +30,6 @@ export function Nav() {
   const { wallets } = useWallets();
   const { authenticated, user } = usePrivy();
   const [mobileOpen, setMobileOpen] = useState(false);
-
   const rawAddress = wallets[0]?.address;
   const connectedAddress =
     rawAddress && /^0x[0-9a-fA-F]{40}$/.test(rawAddress) ? rawAddress : null;
