@@ -17,6 +17,10 @@ function rankFloatWeight(rank: FloatingCardRank): number {
   return 0.75 + RANK_ORDER[rank] * 0.16;
 }
 
+function hasPrestigeGlow(rank: FloatingCardRank): boolean {
+  return rank === "Mythic" || rank === "Legendary";
+}
+
 export function FloatingCard({
   image,
   rank,
@@ -114,12 +118,12 @@ export function FloatingCard({
           .to({}, { duration: 4.6 + r * 1.05 });
       }
 
-      if (rank === "Mythic" && glowEl) {
+      if (hasPrestigeGlow(rank) && glowEl) {
         const mythicTl = gsap.timeline({ repeat: -1, yoyo: true });
         mythicTl.to(glowEl, {
-          opacity: 0.98,
-          scale: 1.24,
-          duration: 1.85,
+          opacity: rank === "Legendary" ? 1 : 0.98,
+          scale: rank === "Legendary" ? 1.28 : 1.24,
+          duration: rank === "Legendary" ? 2.1 : 1.85,
           ease: "sine.inOut",
         });
         mythicGlowTlRef.current = mythicTl;
@@ -150,7 +154,7 @@ export function FloatingCard({
       });
       if (glowEl) {
         gsap.to(glowEl, {
-          opacity: rank === "Mythic" ? 1 : 0.92,
+          opacity: hasPrestigeGlow(rank) ? 1 : 0.92,
           scale: 1.12,
           duration: 0.35,
         });
@@ -186,7 +190,7 @@ export function FloatingCard({
       }
       if (glowEl) {
         gsap.to(glowEl, {
-          opacity: rank === "Mythic" ? 0.55 : 0.42,
+          opacity: hasPrestigeGlow(rank) ? (rank === "Legendary" ? 0.58 : 0.55) : 0.42,
           scale: 1,
           duration: 0.45,
         });
@@ -240,13 +244,15 @@ export function FloatingCard({
   }, [cardIndex, quickTilt, rank]);
 
   const tierBarWidth =
-    rank === "Mythic"
-      ? "92%"
-      : rank === "Rare"
-        ? "78%"
-        : rank === "Uncommon"
-          ? "64%"
-          : "52%";
+    rank === "Legendary"
+      ? "96%"
+      : rank === "Mythic"
+        ? "92%"
+        : rank === "Rare"
+          ? "78%"
+          : rank === "Uncommon"
+            ? "64%"
+            : "52%";
 
   return (
     <div
