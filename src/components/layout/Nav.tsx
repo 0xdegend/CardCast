@@ -10,9 +10,12 @@ import {
   useWallets,
   useLogout,
   useLogin,
+  useFundWallet,
 } from "@privy-io/react-auth";
+import { base } from "viem/chains";
 import { Button } from "@/components/ui/Button";
-import { Bell, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import { WalletWidget } from "../ui/WalletWidget";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -25,11 +28,12 @@ const NAV_LINKS = [
 export function Nav() {
   const pathname = usePathname();
   const { wallets } = useWallets();
-  const { notifCount, clearNotifs } = useAppStore();
   const { authenticated, user } = usePrivy();
-  const isAuthenticated = authenticated;
-
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const rawAddress = wallets[0]?.address;
+  const connectedAddress =
+    rawAddress && /^0x[0-9a-fA-F]{40}$/.test(rawAddress) ? rawAddress : null;
 
   const { login } = useLogin({
     onComplete: ({
@@ -39,30 +43,23 @@ export function Nav() {
       loginMethod,
       loginAccount,
     }) => {
-      console.log("Logged in user:", user);
-      console.log("New user?", isNewUser);
-      console.log("Already authenticated?", wasAlreadyAuthenticated);
-      console.log("Login method:", loginMethod);
-      console.log("Login account:", loginAccount);
+      console.log("Logged in:", user, {
+        isNewUser,
+        wasAlreadyAuthenticated,
+        loginMethod,
+        loginAccount,
+      });
     },
     onError: (error) => {
       console.error("Login failed:", error);
     },
   });
 
-  const handleLogin = async () => {
-    login();
-  };
-
   const { logout } = useLogout({
     onSuccess: () => {
       console.log("User successfully logged out");
     },
   });
-
-  const handleLogout = async () => {
-    logout();
-  };
 
   return (
     <>
@@ -80,6 +77,8 @@ export function Nav() {
               BETA
             </span>
           </Link>
+
+          {/* Desktop nav links */}
           <div className="hidden md:flex items-center gap-1">
             {NAV_LINKS.map((link) => (
               <Link
@@ -99,55 +98,23 @@ export function Nav() {
 
           {/* Right side */}
           <div className="flex items-center gap-3">
-            {isAuthenticated && user ? (
-              <>
-                {/* XP Pill */}
-                <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-[rgba(240,180,41,0.08)] border border-[rgba(240,180,41,0.2)] rounded-sm">
-                  <span className="text-xs">⚡</span>
-                  <span className="font-mono text-[13px] text-(--gold) font-medium">
-                    {/* {formatXP(user?.xp)} XP */}
-                    30 XP
-                  </span>
-                </div>
-
-                {/* Notif bell */}
-                <button
-                  onClick={clearNotifs}
-                  className="relative p-2 rounded-sm text-(--text-muted) hover:text-(--text) hover:bg-white/5 transition-colors"
-                >
-                  <Bell size={16} />
-                  {notifCount > 0 && (
-                    <span className="absolute top-1 right-1 w-3.5 h-3.5 rounded-full bg-(--red) text-[9px] font-bold text-white flex items-center justify-center">
-                      {notifCount}
-                    </span>
-                  )}
-                </button>
-
-                {/* Avatar */}
-                <Link href="/profile">
-                  <div className="w-8 h-8 rounded-full bg-linear-to-br from-(--teal) to-(--purple) flex items-center justify-center text-xs font-extrabold text-black cursor-pointer">
-                    {/* {user.handle.slice(0, 2).toUpperCase()} */}
-                    0x
-                  </div>
-                </Link>
-
-                <button
-                  onClick={handleLogout}
-                  className="hidden sm:block text-xs text-(--text-dim) hover:text-(--text-muted) transition-colors cursor-pointer"
-                >
-                  Disconnect
-                </button>
-              </>
+            {authenticated && user && connectedAddress ? (
+              <WalletWidget
+                walletAddress={connectedAddress}
+                handle={connectedAddress.slice(2, 4)}
+                xp={30}
+                onDisconnect={logout}
+              />
             ) : (
-              <Button size="md" onClick={handleLogin}>
+              <Button size="md" onClick={() => login()}>
                 Connect Wallet
               </Button>
             )}
 
-            {/* Mobile toggle */}
             <button
               className="md:hidden p-1.5 text-(--text-muted)"
               onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="Toggle mobile menu"
             >
               {mobileOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
@@ -155,7 +122,7 @@ export function Nav() {
         </div>
       </nav>
 
-      {/* Mobile Menu */}
+      {/* Mobile menu */}
       {mobileOpen && (
         <div
           className="fixed inset-0 z-40 pt-15 glass md:hidden"
@@ -180,9 +147,43 @@ export function Nav() {
                 {link.label}
               </Link>
             ))}
+
+            {authenticated && connectedAddress && (
+              <div className="mt-3 pt-3 border-t border-white/8">
+                <MobileFundButton address={connectedAddress} />
+              </div>
+            )}
           </div>
         </div>
       )}
     </>
+  );
+}
+
+function MobileFundButton({ address }: { address: string }) {
+  const { fundWallet } = useFundWallet();
+
+  const handleFund = async () => {
+    try {
+      await fundWallet({
+        address: address,
+        options: {
+          chain: base,
+          amount: "50",
+          asset: "USDC",
+        },
+      });
+    } catch (err) {
+      console.error("[MobileFundButton] fundWallet error:", err);
+    }
+  };
+
+  return (
+    <button
+      onClick={handleFund}
+      className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-md font-display font-semibold text-sm text-(--teal) bg-[rgba(0,229,204,0.06)] border border-[rgba(0,229,204,0.15)] hover:bg-[rgba(0,229,204,0.1)] transition-all"
+    >
+      + Fund Wallet with USDC
+    </button>
   );
 }
