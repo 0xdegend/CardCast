@@ -207,17 +207,17 @@ export default function HeroSection() {
         {FLOATING_CARDS.slice(0, 4).map((card, i) => {
           const positions = [
             // Left side
-            { top: "12%", left: "6%", rotate: "-12deg" },
+            { top: "5%", left: "6%", rotate: "-12deg" },
             { top: "52%", left: "10%", rotate: "-6deg" },
 
             // Right side
-            { top: "12%", right: "6%", rotate: "10deg" },
+            { top: "5%", right: "6%", rotate: "10deg" },
             { top: "52%", right: "10%", rotate: "6deg" },
           ];
 
           return (
             <FloatingCard
-              key={i}
+              key={`${card.rank}-${card.image}-${i}`}
               {...card}
               cardIndex={i}
               style={{

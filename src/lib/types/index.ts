@@ -160,15 +160,27 @@ export interface CreateMarketForm {
   initialLiquidity: number;
 }
 
+export type FloatingCardRank =
+  | "Common"
+  | "Uncommon"
+  | "Rare"
+  | "Mythic"
+  | "Legendary";
+
 export interface FloatingCardProps {
   image: string;
-  label: string;
-  sublabel: string;
-  grade?: string;
+  rank: FloatingCardRank;
   color: string;
   glowColor: string;
   style?: React.CSSProperties;
   cardIndex: number;
+}
+
+export interface FloatingCardData {
+  image: string;
+  rank: FloatingCardRank;
+  color: string;
+  glowColor: string;
 }
 
 export interface Particle {

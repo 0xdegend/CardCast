@@ -1,54 +1,32 @@
-export const FLOATING_CARDS = [
+import type { FloatingCardData } from "@/lib/types";
+
+export const FLOATING_CARDS: FloatingCardData[] = [
   {
-    image: "/cards/sample-card-1.png",
-    label: "EB04-001",
-    sublabel: "Jewelry Bonney",
-    grade: "PSA 10",
-    color: "#ff6b35",
+    image: "/cards/pikachu.webp",
+    rank: "Legendary",
+    color: "#d97706",
     glowColor:
-      "radial-gradient(circle, rgba(255,107,53,0.35) 0%, transparent 70%)",
-    style: { top: "14%", left: "5%" },
+      "radial-gradient(circle, rgba(100,116,139,0.45) 0%, transparent 72%)",
   },
   {
-    image: "/cards/sample-card-2.png",
-    label: "EB04-002",
-    sublabel: "Jewelry Bonney",
-    grade: "GEM MT",
-    color: "#9b6dff",
+    image: "/cards/mew.webp",
+    rank: "Uncommon",
+    color: "#10b981",
     glowColor:
-      "radial-gradient(circle, rgba(155,109,255,0.35) 0%, transparent 70%)",
-    style: { top: "22%", right: "5%" },
+      "radial-gradient(circle, rgba(16,185,129,0.42) 0%, transparent 72%)",
   },
   {
-    image: "/cards/sample-card-3.png",
-    label: "EB04-003",
-    sublabel: "Jewelry Bonney",
-    color: "#f5c842",
+    image: "/cards/charizard-holo.webp",
+    rank: "Rare",
+    color: "#6366f1",
     glowColor:
-      "radial-gradient(circle, rgba(245,200,66,0.35) 0%, transparent 70%)",
-    style: { bottom: "30%", left: "4%" },
+      "radial-gradient(circle, rgba(99,102,241,0.48) 0%, transparent 72%)",
   },
   {
-    image: "/cards/sample-card-4.png",
-    label: "EB04-004",
-    sublabel: "Jewelry Bonney",
-    grade: "BGS 9.5",
-    color: "#00e5cc",
+    image: "/cards/mew-holo.webp",
+    rank: "Mythic",
+    color: "#d97706",
     glowColor:
-      "radial-gradient(circle, rgba(0,229,204,0.35) 0%, transparent 70%)",
-    style: { bottom: "22%", right: "6%" },
-  },
-  {
-    image: "/cards/sample-card-5.png",
-    label: "EB04-004",
-    sublabel: "Jewelry Bonney",
-    color: "#ff4d8f",
-    glowColor:
-      "radial-gradient(circle, rgba(255,77,143,0.3) 0%, transparent 70%)",
-    style: {
-      top: "52%",
-      left: "1.5%",
-      display: "none",
-    } as React.CSSProperties,
+      "radial-gradient(circle, rgba(217,119,6,0.55) 0%, transparent 70%)",
   },
 ];

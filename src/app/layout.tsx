@@ -4,6 +4,7 @@ import { Nav } from "@/components/layout/Nav";
 import { Footer } from "@/components/layout/Footer";
 import { Toaster } from "react-hot-toast";
 import { ClientProviders } from "./wrapper/ClientProvider";
+import { BaseChainGate } from "@/components/wallet/BaseChainGate";
 
 export const metadata: Metadata = {
   title: {
@@ -45,7 +46,7 @@ export default function RootLayout({
         <div className="noise-overlay" aria-hidden />
         <ClientProviders>
           <Nav />
-          <main className="min-h-screen pt-15">{children}</main>
+          <BaseChainGate>{children}</BaseChainGate>
         </ClientProviders>
         <Footer />
         <Toaster

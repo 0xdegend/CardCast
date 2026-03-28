@@ -3,13 +3,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { cn, formatXP } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { useAppStore } from "@/lib/store";
 import {
   usePrivy,
   useWallets,
   useLogout,
-  useLoginWithSiwe,
   useLogin,
 } from "@privy-io/react-auth";
 import { Button } from "@/components/ui/Button";
