@@ -136,8 +136,6 @@ export function WalletWidget({
           {xp} XP
         </span>
       </div>
-
-      {/* ── Avatar + Dropdown ─────────────────────────────────────── */}
       <div className="relative" ref={menuRef}>
         <button
           onClick={() => setMenuOpen((o) => !o)}
@@ -146,8 +144,6 @@ export function WalletWidget({
         >
           {initials}
         </button>
-
-        {/* Dropdown menu */}
         {menuOpen && (
           <div
             className={cn(
@@ -157,7 +153,6 @@ export function WalletWidget({
               "py-1 animate-in fade-in slide-in-from-top-2 duration-150",
             )}
           >
-            {/* Wallet address header */}
             <div className="px-3 py-2.5 border-b border-white/8">
               <p className="font-display text-[10px] text-(--text-dim) tracking-widest uppercase mb-0.5">
                 Connected wallet
@@ -166,8 +161,6 @@ export function WalletWidget({
                 {shortAddress(walletAddress)}
               </p>
             </div>
-
-            {/* USDC balance (full view in dropdown on mobile) */}
             <div className="px-3 py-2 border-b border-white/8 sm:hidden">
               <p className="font-display text-[10px] text-(--text-dim) tracking-widest uppercase mb-0.5">
                 USDC Balance · Base
